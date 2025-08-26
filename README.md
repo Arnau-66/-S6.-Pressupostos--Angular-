@@ -1,59 +1,79 @@
-# BudgetApp
+# 📊 Sprint 6 – Budget Calculator (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
+This repository contains the **Sprint 6 project** for the IT Academy Frontend Bootcamp.  
+The goal of this sprint is to build a **Budget Calculator Web Application** using **Angular**, following best practices such as **Reactive Forms**, **Services**, **Custom Validators**, and the new **Angular Signals** API.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Project Overview
 
-```bash
-ng serve
-```
+The application allows users to:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- ✅ Select services (SEO campaign, Ads campaign, Website).
+- 🔄 Dynamically calculate the budget based on the selected options.
+- ⚙️ Adjust website options (number of pages and languages).
+- 🛡️ Display validation messages and help tooltips.
+- 💾 Save multiple budgets with client details (name, email, phone).
+- 📑 Manage and order budgets (by date, price, or alphabetically).
+- 🔍 Search budgets by client name.
+- 🔗 Share budgets via URL parameters.
+  
+---
 
-## Code scaffolding
+## 📂 Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Proposed structure:
 
 ```bash
-ng build
+src/app/
+├── budgets-list/        # Component to list saved budgets
+├── home/                # Home page with main form
+├── models/              # Interfaces & models (e.g. Budget)
+├── panel/               # Component to adjust website options
+├── services/            # Budget service (logic & signals)
+├── shared/              # Shared components (e.g. modal, validations)
+└── welcome/             # Welcome component
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🛠️ Tech Stack
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- **Angular 17+**
+- **TypeScript**
+- **SCSS**
+- **Bootstrap 5**
+- **Angular Signals**
+
+---
+
+## ⚙️ Installation & Setup
+
+Clone the repository:
 
 ```bash
-ng test
+git clone https://github.com/Arnau-66/-S6.-Pressupostos--Angular-.git
+cd -S6.-Pressupostos--Angular-
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Install dependencies:
 
 ```bash
-ng e2e
+npm install
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Run the development server:
 
-## Additional Resources
+```bash
+npx ng serve -o
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Open in browser: [http://localhost:4200](http://localhost:4200)
+
+---
+
+## 📌 Notes
+
+- This project is **educational** and part of the IT Academy Bootcamp.
+- The **`main` branch** contains the production-ready base project.
+- Development of exercises (levels 1–3) will be done in **feature branches**.
