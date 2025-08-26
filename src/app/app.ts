@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
+import { Home } from './components/home/home';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  standalone: true,
+  imports: [Home],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
