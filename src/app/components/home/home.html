@@ -1,23 +1,37 @@
-<div class="container py-4">
-  <h2 class="mb-3">Presupuesto</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
 
-  <form [formGroup]="form" class="mb-3">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="seo" formControlName="seo">
-      <label class="form-check-label" for="seo">Campaña SEO (300 €)</label>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h3 mb-4">Presupuesto</h2>
+
+          <form [formGroup]="form" class="vstack gap-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="seo" formControlName="seo">
+              <label class="form-check-label" for="seo">Campaña SEO (300 €)</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="ads" formControlName="ads">
+              <label class="form-check-label" for="ads">Campaña Ads (400 €)</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="web" formControlName="web">
+              <label class="form-check-label" for="web">Página Web (500 €)</label>
+            </div>
+          </form>
+
+          <hr class="my-4">
+
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">Total:</span>
+            <span class="display-6 fs-3">{{ total | currency:'EUR' }}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="ads" formControlName="ads">
-      <label class="form-check-label" for="ads">Campaña Ads (400 €)</label>
-    </div>
-
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="web" formControlName="web">
-      <label class="form-check-label" for="web">Página Web (500 €)</label>
-    </div>
-  </form>
-
-  <h3>Total: {{ total | currency:'EUR' }}</h3>
+  </div>
 </div>
-

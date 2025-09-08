@@ -17,3 +17,4 @@ bootstrapApplication(App, {
     { provide: LOCALE_ID, useValue: 'es-ES' }
   ]
 }).catch(err => console.error(err));
+
