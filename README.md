@@ -1,59 +1,67 @@
-# 🧾 Exercici 1 — Sprint 6 (Branch: `feature/exercici1`)
+# 🧾 Exercici 2 — Sprint 6 (Branch: `feature/exercici2`)
 
-This README belongs **exclusively** to the branch `feature/exercici1`.  
+This README belongs **exclusively** to the branch `feature/exercici2`.  
 Its purpose is to **prioritize the exercise statement** and define the minimum acceptance criteria.
 
 ---
 
-## 📋 Statement (Level 1 — Exercise 1)
+## 📋 Statement (Level 1 — Exercise 2)
 
-> **Form with 3 products**  
-> The application starts with three *checkboxes*.  
-> The user must decide which services are needed to build the budget.
+> **Pages and Languages Panel**  
+> Once the user selects the **Website service**, an additional panel must appear to configure:  
+> - Number of **pages**  
+> - Number of **languages**  
 >
-> 1. Launch an **SEO campaign** (**€300**)  
-> 2. Launch an **Ads campaign** (**€400**)  
-> 3. Build a **Website** (**€500**)
->
-> **Requirement:** Create a **reactive form** with the 3 products. According to the options selected, the **total price** must update dynamically.
+> The price formula for the website is:  
+> **(pages × languages × 30) + 500 (base web price)**
 
 ---
 
 ## ✅ Acceptance criteria
 
-- A **reactive form** is displayed with 3 *checkboxes*: `seo`, `ads`, `web`.  
-- The **total** updates **instantly** when toggling the checkboxes.  
-- Base prices are fixed: **SEO €300**, **Ads €400**, **Web €500**.  
-- The total calculation **does not depend on the UI**, but on a **function inside a service**.  
-- The initial screen **does not yet include** the panel for pages/languages (that’s part of Exercise 2).
+- When **`web`** is selected, a **panel** is displayed.  
+- The panel lets the user **increment/decrement**:
+  - Number of pages (default = 1, min = 1)  
+  - Number of languages (default = 1, min = 1)  
+- The **total** updates instantly according to:  
+  **Total = base (E1) + extra (pages × languages × 30)**  
+- Values are handled with **Reactive Forms** (`FormGroup` + `FormControl<number>`).  
+- Calculations live in the **BudgetService** (new function).  
 
 ---
 
 ## 🧠 Minimal technical design (for this branch)
 
-- `src/app/services/budget.service.ts`  
-  - `calculateBaseTotal({ seo, ads, web }): number` → sums 300/400/500 depending on selection.  
-- `src/app/components/home` (standalone)  
-  - `FormGroup` with 3 `FormControl<boolean>` (`seo`, `ads`, `web`).  
-  - Subscription to `valueChanges` to recalculate the total.  
-- `src/app/models/constants.ts`  
-  - `PRICE = { SEO: 300, ADS: 400, WEB: 500, WEB_EXTRA: 30 }` (WEB_EXTRA will be used in Exercise 2).
+- `src/app/services/budget.ts`  
+  - Extend with:
+    ```ts
+    calculateTotalWithWebExtras(sel: { seo: boolean; ads: boolean; web: boolean; pages: number; languages: number; }): number
+    ```
+  - If `web` is `false`, extras = `0`.
+- `src/app/components/panel` (new standalone component)
+  - Contains inputs and `+ / −` buttons for **pages** and **languages**.
+  - It binds to the parent form via `formGroup`/`formControlName`.
+- `src/app/components/home`
+  - Shows the **panel** only when `web` is selected.
+  - Subscribes to `form.valueChanges` and uses the new service function.
 
 ---
 
-## 🧪 (Optional) Suggested test for this exercise
+## 🧪 (Optional) Suggested tests
 
-- **BudgetService**: should correctly return totals for typical combinations:  
-  - `{seo:true, ads:false, web:false} => 300`  
-  - `{seo:true, ads:true, web:false} => 700`  
-  - `{seo:true, ads:true, web:true} => 1200`
+- **BudgetService**:
+  - `{seo:false, ads:false, web:true, pages:1, languages:1} → 500 + 1×1×30 = 530`  
+  - `{seo:true, ads:true, web:true, pages:2, languages:2} → 300+400+500 + 2×2×30 = 1260`
+- **Panel component**:
+  - `+` increments and `−` decrements but never goes below `1`.
+  - Emits/updates values in the parent form.
 
 ---
 
-## 🔗 Relation with following exercises
+## 🔗 Dependency with Exercici 1
 
-- **Exercise 2** (pages/languages panel) depends on this form being ready.  
-- The **final total** in Exercise 2 will be: `base (E1) + extra (pages × languages × 30)`.
+- Requires **Exercici 1** form (SEO/Ads/Web) working.  
+- Uses constant: `WEB_EXTRA = 30` from `src/app/models/constants.ts`.
 
 ---
 
@@ -64,4 +72,4 @@ npm install
 npx ng serve -o
 ```
 
-> Locale `es-ES` and Bootstrap 5 are already configured in the base project (see `main.ts` and `styles.scss`).
+> Locale `es-ES` and Bootstrap 5 are already configured (see `main.ts` and `styles.scss`).
