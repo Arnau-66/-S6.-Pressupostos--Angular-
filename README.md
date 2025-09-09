@@ -47,17 +47,6 @@ Its purpose is to **prioritize the exercise statement** and define the minimum a
 
 ---
 
-## 🧪 (Optional) Suggested tests
-
-- **BudgetService**:
-  - `{seo:false, ads:false, web:true, pages:1, languages:1} → 500 + 1×1×30 = 530`  
-  - `{seo:true, ads:true, web:true, pages:2, languages:2} → 300+400+500 + 2×2×30 = 1260`
-- **Panel component**:
-  - `+` increments and `−` decrements but never goes below `1`.
-  - Emits/updates values in the parent form.
-
----
-
 ## 🔗 Dependency with Exercici 1
 
 - Requires **Exercici 1** form (SEO/Ads/Web) working.  

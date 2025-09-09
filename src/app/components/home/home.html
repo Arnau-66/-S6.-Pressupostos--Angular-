@@ -60,6 +60,10 @@
       </div>
 
     </div>
+
+    <div *ngIf="form.get('web')?.value">
+      <app-panel [form]="form"></app-panel>
+    </div>
   </form>
 
   <hr class="my-4">

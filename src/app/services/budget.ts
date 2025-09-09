@@ -7,6 +7,13 @@ export interface BaseSelection {
   web: boolean;
 }
 
+export interface WebExtras {
+  pages: number;
+  languages: number;
+}
+
+export type SelectionWithWeb = BaseSelection & WebExtras;
+
 @Injectable({ providedIn: 'root'})
 
 export class BudgetService {
@@ -19,5 +26,13 @@ export class BudgetService {
     if (sel.web) total += PRICE.WEB;
 
     return total;
-  };
+  }
+
+  calculateTotalWithWebExtras(sel: SelectionWithWeb): number {
+    let base = this.calculateBaseTotal(sel);
+    if (!sel.web) return base;
+    let extras = sel.pages * sel.languages * PRICE.WEB_EXTRA;
+    return base + extras;
+  }
+
 }

@@ -1,0 +1,27 @@
+
+<div [formGroup]="form">
+  <div class="panel">
+    <div class="row g-3">
+      
+      <div class="col-12 col-md-6">
+        <label class="form-label">Número de páginas</label>
+        <div class="input-group">
+          <button type="button" class="btn btn-outline-secondary" (click)="dec('pages')">−</button>
+          <input type="number" class="form-control text-center" formControlName="pages" min="1">
+          <button type="button" class="btn btn-outline-secondary" (click)="inc('pages')">+</button>
+        </div>
+      </div>
+
+      
+      <div class="col-12 col-md-6">
+        <label class="form-label">Número de idiomas</label>
+        <div class="input-group">
+          <button type="button" class="btn btn-outline-secondary" (click)="dec('languages')">−</button>
+          <input type="number" class="form-control text-center" formControlName="languages" min="1">
+          <button type="button" class="btn btn-outline-secondary" (click)="inc('languages')">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
