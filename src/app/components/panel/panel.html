@@ -4,7 +4,18 @@
     <div class="row g-3">
       
       <div class="col-12 col-md-6">
-        <label class="form-label">Número de páginas</label>
+        <label class="form-label d-flex align-items-center gap-2">
+            Número de páginas
+            <button 
+            type="button" 
+            class="btn btn-sm btn-outline-secondary rounded-circle px-2"
+            data-bs-toggle="modal"
+            data-bs-target="#helpPagesModal"
+            aria-label="Ayuda sobre número de páginas"
+            title="Ayuda"
+            >?</button>
+        </label>
+
         <div class="input-group">
           <button type="button" class="btn btn-outline-secondary" (click)="dec('pages')">−</button>
           <input type="number" class="form-control text-center" formControlName="pages" min="1">
@@ -14,7 +25,18 @@
 
       
       <div class="col-12 col-md-6">
-        <label class="form-label">Número de idiomas</label>
+        <label class="form-label d-flex align-items-center gap-2">
+            Número de idiomas
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary rounded-circle px-2"
+                data-bs-toggle="modal"
+                data-bs-target="#helpLanguagesModal"
+                aria-label="Ayuda sobre número de idiomas"
+                title="Ayuda"
+            >?</button>
+        </label>
+
         <div class="input-group">
           <button type="button" class="btn btn-outline-secondary" (click)="dec('languages')">−</button>
           <input type="number" class="form-control text-center" formControlName="languages" min="1">
@@ -24,4 +46,53 @@
     </div>
   </div>
 </div>
+
+<div
+  class="modal fade"
+  id="helpPagesModal"
+  tabindex="-1"
+  aria-labelledby="helpPagesTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="helpPagesTitle">Número de páginas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        Indica cuántas páginas tendrá tu web.  
+        El coste adicional del sitio web es: <strong>páginas × idiomas × 30 €</strong>.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="helpLanguagesModal"
+  tabindex="-1"
+  aria-labelledby="helpLanguagesTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="helpLanguagesTitle">Número de idiomas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        Indica en cuántos idiomas publicarás la web.  
+        El coste adicional del sitio web es: <strong>páginas × idiomas × 30 €</strong>.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
