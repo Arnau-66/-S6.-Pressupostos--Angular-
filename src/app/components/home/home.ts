@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { BudgetService } from '../../services/budget';
+import { BaseSelection, BudgetService } from '../../services/budget';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +21,7 @@ export class Home {
       web: [false]
     });
 
-    this.form.valueChanges.subscribe(values => {
+    this.form.valueChanges.subscribe((values: BaseSelection )=> {
       this.total = this.budgetService.calculateBaseTotal(values);
     });
   }
