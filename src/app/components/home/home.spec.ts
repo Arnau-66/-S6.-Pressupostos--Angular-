@@ -50,5 +50,12 @@ describe('Home', () => {
     expect(component.total).toBe(700);
   });
 
+  it('should be 530 when only Web is selected with pages=1 and languages=1', () => {
+    component.form.patchValue({ seo: false, ads: false, web: true, pages: 1, languages: 1 });
+    fixture.detectChanges();
+
+    expect(component.total).toBe(530);
+  });
+
 
 });
