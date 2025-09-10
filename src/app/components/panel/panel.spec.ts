@@ -40,4 +40,12 @@ describe('Panel', () => {
     component.inc('pages');
     expect(pages.value).toBe(3);
   });
+
+  it('should increment languages by 1 when inc("languages") is called', () => {
+    const languages = component.form.get('languages')!;
+    expect(languages.value).toBe(1);
+
+    component.inc('languages');
+    expect(languages.value).toBe(2);
+  });
 });
