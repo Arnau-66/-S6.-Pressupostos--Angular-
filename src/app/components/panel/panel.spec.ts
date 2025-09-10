@@ -29,5 +29,15 @@ describe('Panel', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
+  it('should increment pages by 1 when inc("pages") is called', () => {
+    const pages = component.form.get('pages')!;
+    expect(pages.value).toBe(1);
+
+    component.inc('pages');
+    expect(pages.value).toBe(2);
+
+    component.inc('pages');
+    expect(pages.value).toBe(3);
+  });
 });
