@@ -73,5 +73,16 @@ describe('Home', () => {
     expect(component.total).toBe(0);
   });
 
+  it('should enforce min=1 validation for pages and languages', () => {
+    const pages = component.form.get('pages')!;
+    const languages = component.form.get('languages')!;
+
+    pages.setValue(0);
+    languages.setValue(0);
+    fixture.detectChanges();
+
+    expect(pages.invalid).toBeTrue();
+    expect(languages.invalid).toBeTrue();
+  });
 
 });
