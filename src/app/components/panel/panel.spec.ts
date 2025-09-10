@@ -60,4 +60,20 @@ describe('Panel', () => {
     component.dec('pages');
     expect(pages.value).toBe(1);
   });
+
+  it('should decrement languages by 1 but never below 1', () => {
+    const languages = component.form.get('languages')!;
+    component.inc('languages');
+    component.inc('languages');
+    expect(languages.value).toBe(3);
+
+    component.dec('languages');
+    expect(languages.value).toBe(2);
+
+    component.dec('languages');
+    expect(languages.value).toBe(1);
+
+    component.dec('languages');
+    expect(languages.value).toBe(1);
+  });
 });
