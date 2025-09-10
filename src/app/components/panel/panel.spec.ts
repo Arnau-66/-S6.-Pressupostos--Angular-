@@ -48,4 +48,16 @@ describe('Panel', () => {
     component.inc('languages');
     expect(languages.value).toBe(2);
   });
+
+  it('should decrement pages by 1 but never below 1', () => {
+    const pages = component.form.get('pages')!;
+    component.inc('pages');
+    expect(pages.value).toBe(2);
+
+    component.dec('pages');
+    expect(pages.value).toBe(1);
+
+    component.dec('pages');
+    expect(pages.value).toBe(1);
+  });
 });
