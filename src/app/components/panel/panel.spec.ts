@@ -76,4 +76,26 @@ describe('Panel', () => {
     component.dec('languages');
     expect(languages.value).toBe(1);
   });
+
+  it('should keep validators working (min=1) after changes', () => {
+    const pages = component.form.get('pages')!;
+    const languages = component.form.get('languages')!;
+
+    component.inc('pages');
+    component.dec('pages');
+    component.dec('pages');
+
+    component.inc('languages');
+    component.dec('languages');
+    component.dec('languages');
+
+    expect(pages.value).toBe(1);
+    expect(languages.value).toBe(1);
+
+    pages.setValue(0);
+    languages.setValue(0);
+    expect(pages.invalid).toBeTrue();
+    expect(languages.invalid).toBeTrue();
+  });
+  
 });
