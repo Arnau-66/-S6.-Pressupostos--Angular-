@@ -57,5 +57,14 @@ describe('Home', () => {
     expect(component.total).toBe(530);
   });
 
+  it('should be 680 when Web is selected with pages=2 and languages=3', () => {
+    component.form.patchValue({ seo: false, ads: false, web: true });
+    component.form.get('pages')!.setValue(2);
+    component.form.get('languages')!.setValue(3);
+    fixture.detectChanges();
+
+    expect(component.total).toBe(680);
+  });
+
 
 });
