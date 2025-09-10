@@ -22,16 +22,26 @@ describe('Home', () => {
   });
 
   it('should initialize the reactive form with default values', () => {
-  const form = component.form;
+    const form = component.form;
 
-  expect(form.get('seo')?.value).toBeFalse();
-  expect(form.get('ads')?.value).toBeFalse();
-  expect(form.get('web')?.value).toBeFalse();
+    expect(form.get('seo')?.value).toBeFalse();
+    expect(form.get('ads')?.value).toBeFalse();
+    expect(form.get('web')?.value).toBeFalse();
 
-  expect(form.get('pages')?.value).toBe(1);
-  expect(form.get('languages')?.value).toBe(1);
+    expect(form.get('pages')?.value).toBe(1);
+    expect(form.get('languages')?.value).toBe(1);
 
-  expect(component.total).toBe(0);
-});
+    expect(component.total).toBe(0);
+  });
+
+  it('should update total to 300 when SEO is checked', () => {
+    const seo = component.form.get('seo')!;
+    
+    seo.setValue(true); 
+    fixture.detectChanges();
+
+    expect(component.total).toBe(300);
+  });
+
 
 });
