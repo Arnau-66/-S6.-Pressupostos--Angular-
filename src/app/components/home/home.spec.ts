@@ -85,4 +85,16 @@ describe('Home', () => {
     expect(languages.invalid).toBeTrue();
   });
 
+  it('should render <app-panel> only when web=true', () => {
+    const host: HTMLElement = fixture.nativeElement;
+
+    expect(host.querySelector('app-panel')).toBeNull();
+
+    component.form.get('web')!.setValue(true);
+    fixture.detectChanges();
+
+    expect(host.querySelector('app-panel')).not.toBeNull();
+  });
+
+
 });
