@@ -66,5 +66,12 @@ describe('Home', () => {
     expect(component.total).toBe(680);
   });
 
+  it('should ignore web extras when web=false', () => {
+    component.form.patchValue({ web: false, pages: 10, languages: 10 });
+    fixture.detectChanges();
+
+    expect(component.total).toBe(0);
+  });
+
 
 });
