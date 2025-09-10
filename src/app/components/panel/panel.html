@@ -17,9 +17,9 @@
         </label>
 
         <div class="input-group">
-          <button type="button" class="btn btn-outline-secondary" (click)="dec('pages')">−</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="dec('pages')"  data-testid="dec-pages">−</button>
           <input type="number" class="form-control text-center" formControlName="pages" min="1">
-          <button type="button" class="btn btn-outline-secondary" (click)="inc('pages')">+</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="inc('pages')"  data-testid="inc-pages">+</button>
         </div>
       </div>
 
@@ -38,9 +38,9 @@
         </label>
 
         <div class="input-group">
-          <button type="button" class="btn btn-outline-secondary" (click)="dec('languages')">−</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="dec('languages')"  data-testid="dec-languages">−</button>
           <input type="number" class="form-control text-center" formControlName="languages" min="1">
-          <button type="button" class="btn btn-outline-secondary" (click)="inc('languages')">+</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="inc('languages')"  data-testid="inc-languages">+</button>
         </div>
       </div>
     </div>
