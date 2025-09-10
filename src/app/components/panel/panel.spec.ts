@@ -1,23 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Panel } from './panel';
 
 describe('Panel', () => {
   let component: Panel;
   let fixture: ComponentFixture<Panel>;
+  let fb: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Panel]
-    })
-    .compileComponents();
+      imports: [Panel, ReactiveFormsModule]
+    }).compileComponents();
+
+    fb = TestBed.inject(FormBuilder);
 
     fixture = TestBed.createComponent(Panel);
     component = fixture.componentInstance;
+
+    component.form = fb.group({
+      pages: [1, [Validators.min(1)]],
+      languages: [1, [Validators.min(1)]],
+      web: [true]
+    });
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
 });
