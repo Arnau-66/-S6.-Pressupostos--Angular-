@@ -36,11 +36,18 @@ describe('Home', () => {
 
   it('should update total to 300 when SEO is checked', () => {
     const seo = component.form.get('seo')!;
-    
+
     seo.setValue(true); 
     fixture.detectChanges();
 
     expect(component.total).toBe(300);
+  });
+
+  it('should update total to 700 when SEO and Ads are checked', () => {
+    component.form.patchValue({ seo: true, ads: true });
+    fixture.detectChanges();
+
+    expect(component.total).toBe(700);
   });
 
 
