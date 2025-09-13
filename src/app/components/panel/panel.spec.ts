@@ -98,4 +98,13 @@ describe('Panel', () => {
     expect(languages.invalid).toBeTrue();
   });
   
+  it('(DOM) should increment pages when clicking the + button', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const btn = host.querySelector('[data-testid="inc-pages"]') as HTMLButtonElement;
+
+    btn.click();
+    fixture.detectChanges();
+
+    expect(component.form.get('pages')!.value).toBe(2);
+  });
 });
