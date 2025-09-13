@@ -154,4 +154,17 @@ describe('Panel', () => {
     expect(pagesInput.getAttribute('min')).toBe('1');
     expect(languagesInput.getAttribute('min')).toBe('1');
   });
+
+  it('should have bootstrap modal attributes on help buttons', () => {
+    const host: HTMLElement = fixture.nativeElement;
+
+    const helpPagesBtn = host.querySelector('button[data-bs-target="#helpPagesModal"]') as HTMLButtonElement;
+    const helpLangBtn  = host.querySelector('button[data-bs-target="#helpLanguagesModal"]') as HTMLButtonElement;
+
+    expect(helpPagesBtn).not.toBeNull();
+    expect(helpPagesBtn.getAttribute('data-bs-toggle')).toBe('modal');
+
+    expect(helpLangBtn).not.toBeNull();
+    expect(helpLangBtn.getAttribute('data-bs-toggle')).toBe('modal');
+  });
 });
