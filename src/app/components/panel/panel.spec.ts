@@ -117,4 +117,14 @@ describe('Panel', () => {
 
     expect(component.form.get('pages')!.value).toBe(1);
   });
+
+  it('(DOM) should increment languages when clicking the + button', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const btn = host.querySelector('[data-testid="inc-languages"]') as HTMLButtonElement;
+
+    btn.click();
+    fixture.detectChanges();
+
+    expect(component.form.get('languages')!.value).toBe(2);
+  });
 });
