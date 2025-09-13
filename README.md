@@ -1,139 +1,66 @@
-# ✅ Exercise 4 — Sprint 6 (Branch: `feature/exercici4`)
+# 📑 Exercici 5 — Sprint 6 (Branch: `feature/exercici5`)
 
-This README belongs **exclusively** to the branch `feature/exercici4`.  
-Goals for this branch:
-
-1) **Add unit tests** for an important part of the app (as required by the exercise).  
-2) **Migrate structural directives** to the new Angular control-flow syntax (`@if`, `@for`, `@switch`).
+This README belongs **exclusively** to the branch `feature/exercici5`.  
+Its purpose is to **prioritize the exercise statement** and define the minimum acceptance criteria.
 
 ---
 
-## 📋 Statement (Level 1 — Exercise 4)
+## 📋 Statement (Level 2 — Exercise 5)
 
-> “Create a **unit test** for any functionality you consider important.”
+> **Multiple budgets with client details**  
+> Until now, the app only allowed generating **a single budget**.  
+> In this exercise, we must extend the functionality so that users can create and manage **multiple budgets**.
 
-In this branch we will cover **core behavior** of the budgeting flow and add a small UI test for the panel.
+The user must fill **three inputs** with client details (name, phone, email).  
+Together with the selected services and the calculated total, the budget should be added to a **list of budgets**.
 
 ---
 
 ## ✅ Acceptance criteria
 
-- At least **one meaningful unit test** is implemented and passing.  
-- Test(s) run with the Angular default tooling (Karma/Jasmine).  
-- The tests verify **business logic** (BudgetService) and optionally a **UI behavior** (Panel).
-- CI-friendly: the test command can run in headless mode.
+- Add three inputs for client details:
+  - `name`
+  - `phone`
+  - `email`
+- The user can click a button (e.g. *Add Budget*) to save the budget.
+- The saved budget must include:
+  - Selected services
+  - Pages & languages (if web is selected)
+  - Total price
+  - Client details (name, phone, email)
+- All budgets are shown in a **list component** (not directly in Home).
 
 ---
 
-## 🧪 Test plan
+## 🧠 Technical design
 
-### 1) `BudgetService` (business logic)
-File: `src/app/services/budget.spec.ts`
-
-**What to test**
-- Base total for Exercise 1.
-- Total with website extras for Exercise 2.
-- No extras when `web === false`.
-- Boundary values: minimum page/language = 1.
-
-**Suggested cases**
-```ts
-// Example expectations
-// 1) Base only
-// {seo:true, ads:false, web:false} -> 300
-// 2) Base + web only
-// {seo:false, ads:false, web:true, pages:1, languages:1} -> 500 + 1*1*30 = 530
-// 3) Full selection
-// {seo:true, ads:true, web:true, pages:2, languages:2} -> 300+400+500 + 2*2*30 = 1260
-// 4) No extras when web=false
-// {seo:false, ads:true, web:false, pages:10, languages:10} -> 400
-```
-
-### 2) `Panel` (UI behavior)
-File: `src/app/components/panel/panel.spec.ts`
-
-**What to test**
-- The `inc('pages')` and `dec('pages')` methods update the bound `FormGroup` and **never go below 1**.
-- Same for `languages`.
-- (Optional) The template renders the current values (sanity check).
-
-**Tips**
-- Use `FormBuilder` to create a `FormGroup` and pass it as `@Input` to the component instance.
-- Verify `component.form.get('pages')?.value` after calling `inc/dec`.
+- Extend `BudgetService`:
+  - Create a **Signal** that stores the list of budgets.
+  - Provide methods like `addBudget()` and `getBudgets()`.
+- Create a new component `BudgetsList`:
+  - Reads the budgets from the service.
+  - Uses `@for` (instead of `*ngFor`) to render the list.
+- Update `Home`:
+  - Add the input fields for client details.
+  - Connect the button to call the service and add the budget.
 
 ---
 
-## ▶️ How to run tests
+## 🧪 Testing considerations
 
-```bash
-# run tests in watch mode
-npx ng test
-
----
-
-## 🔁 Migration to new Angular control flow (`@if`, `@for`, `@switch`)
-
-We will **replace** structural directives (`*ngIf`, `*ngFor`, `*ngSwitch`) with the new, faster and clearer syntax introduced in Angular 17+.
-
-### Why
-- Better performance (no implicit `ng-template` creation).
-- Consistent, **block-based** syntax similar to TypeScript.
-- Works perfectly with standalone components.
-
-### Cheatsheet
-
-**`*ngIf` → `@if`**
-```html
-<!-- Before -->
-<div *ngIf="form.get('web')?.value">Panel</div>
-
-<!-- After -->
-@if (form.get('web')?.value) {
-  <div>Panel</div>
-} @else {
-  <div>Sin Web</div>
-}
-```
-
-**`*ngFor` → `@for`**
-```html
-<!-- Before -->
-<li *ngFor="let item of items; trackBy: trackById">{{ item.name }}</li>
-
-<!-- After -->
-@for (item of items; track item.id) {
-  <li>{{ item.name }}</li>
-} @empty {
-  <li>No items</li>
-}
-```
-
-**`*ngSwitch` → `@switch`**
-```html
-<!-- Before -->
-<div [ngSwitch]="mode">
-  <p *ngSwitchCase="'view'">View</p>
-  <p *ngSwitchCase="'edit'">Edit</p>
-  <p *ngSwitchDefault>Unknown</p>
-</div>
-
-<!-- After -->
-@switch (mode) {
-  @case ('view') { <p>View</p> }
-  @case ('edit') { <p>Edit</p> }
-  @default { <p>Unknown</p> }
-}
-```
-
-> Note: With `@if/@for/@switch` you **don’t need `CommonModule` just for those blocks**, but you may still need it for other directives like `ngClass`, `ngStyle`, pipes from `CommonModule`, etc. We’ll keep `CommonModule` imported where used.
+- Test that `addBudget()` correctly adds a new budget to the Signal.
+- Test that the `BudgetsList` component renders the budgets.
+- Validate that form fields for client details are required.
 
 ---
 
-## 🔧 Scope of changes in this branch
- 
-- Migrate templates in `home.html` and `panel.html` to the new control-flow where applicable:
-  - Replace any `*ngIf` with `@if` (e.g., the conditional panel under Web).
-  - If any loops exist, replace `*ngFor` with `@for`.
+## 🔗 Relation with previous exercises
+
+- Builds on **Exercise 1** (base services with checkboxes).  
+- Uses **Exercise 2** (pages & languages).  
+- Integrates **Exercise 3** (help modals).  
+- Extends **Exercise 4** (unit tests).  
+- **Exercise 5** introduces Signals to manage budgets list.
 
 ---
 
@@ -144,4 +71,22 @@ npm install
 npx ng serve -o
 ```
 
-> Bootstrap 5 and locale `es-ES` are already configured in the base project.
+---
+
+## 📘 Notes on Angular Signals
+
+- **Signals** are Angular’s new **reactivity system** (introduced in Angular 16).  
+- They replace manual subscriptions with a **simpler, more predictable** way of handling state.  
+- A Signal is like a *reactive variable*: when its value changes, Angular automatically updates the UI.
+- Example:
+
+```ts
+import { signal } from '@angular/core';
+
+const counter = signal(0);
+
+counter();     // read → 0
+counter.set(1); // write → updates value
+```
+
+In this project, we use Signals to store and reactively update the **budgets list**.
