@@ -145,4 +145,13 @@ describe('Panel', () => {
 
     expect(component.form.get('languages')!.value).toBe(1);
   });
+
+  it('should keep min=1 attribute in number inputs (pages/languages)', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const pagesInput = host.querySelector('input[formControlName="pages"]') as HTMLInputElement;
+    const languagesInput = host.querySelector('input[formControlName="languages"]') as HTMLInputElement;
+
+    expect(pagesInput.getAttribute('min')).toBe('1');
+    expect(languagesInput.getAttribute('min')).toBe('1');
+  });
 });
