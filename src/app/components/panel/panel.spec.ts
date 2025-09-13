@@ -127,4 +127,22 @@ describe('Panel', () => {
 
     expect(component.form.get('languages')!.value).toBe(2);
   });
+
+  it('(DOM) should decrement languages when clicking the − button but not below 1', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const dec = host.querySelector('[data-testid="dec-languages"]') as HTMLButtonElement;
+
+    (host.querySelector('[data-testid="inc-languages"]') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    dec.click();
+    fixture.detectChanges();
+
+    expect(component.form.get('languages')!.value).toBe(1);
+
+    dec.click();
+    fixture.detectChanges();
+
+    expect(component.form.get('languages')!.value).toBe(1);
+  });
 });
