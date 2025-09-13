@@ -107,4 +107,14 @@ describe('Panel', () => {
 
     expect(component.form.get('pages')!.value).toBe(2);
   });
+
+  it('(DOM) should decrement pages when clicking the − button but not below 1', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const dec = host.querySelector('[data-testid="dec-pages"]') as HTMLButtonElement;
+
+    dec.click();       
+    fixture.detectChanges();
+
+    expect(component.form.get('pages')!.value).toBe(1);
+  });
 });
