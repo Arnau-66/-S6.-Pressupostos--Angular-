@@ -66,14 +66,52 @@
     </div>
   </form>
 
-  <hr class="my-4">
+<hr class="my-4">
 
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-10 col-lg-8">
-      <div class="d-flex justify-content-between align-items-center">
-        <span class="fw-semibold">Total:</span>
-        <span class="display-6 fs-3">{{ total | currency:'EUR' }}</span>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8">
+
+    <h4 class="h5 mb-3">Client details</h4>
+
+    <form [formGroup]="clientForm" novalidate>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="clientName">Name *</label>
+          <input id="clientName" type="text" class="form-control" formControlName="name" />
+          @if (clientForm.get('name')?.touched && clientForm.get('name')?.hasError('required')) {
+            <div class="text-danger small mt-1">Name is required.</div>
+          }
+        </div>
+
+
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="clientEmail">Email *</label>
+          <input id="clientEmail" type="email" class="form-control" formControlName="email" />
+          @if (clientForm.get('email')?.touched && clientForm.get('email')?.hasError('required')) {
+            <div class="text-danger small mt-1">Email is required.</div>
+          } @else if (clientForm.get('email')?.touched && clientForm.get('email')?.hasError('email')) {
+            <div class="text-danger small mt-1">Please enter a valid email.</div>
+          }
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="clientPhone">Phone</label>
+          <input id="clientPhone" type="tel" class="form-control" formControlName="phone" />
+        </div>
       </div>
-    </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!canSave"
+          (click)="onSave()"
+        >
+          Save budget
+        </button>
+      </div>
+    </form>
+
   </div>
 </div>
+
