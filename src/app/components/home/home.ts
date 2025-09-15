@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { BudgetService, SelectionWithWeb } from '../../services/budget';
 import { Panel } from '../panel/panel';
+import { BudgetList } from '../budget-list/budget-list';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, Panel],
+  imports: [CommonModule, ReactiveFormsModule, Panel, BudgetList],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

@@ -1,0 +1,63 @@
+<section class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0">Saved budgets</h3>
+        <span class="text-muted small">
+          @if (service.budgets().length === 1) {
+            {{ service.budgets().length }} item
+          } @else {
+            {{ service.budgets().length }} items
+          }
+        </span>
+      </div>
+
+      @if (service.budgets().length === 0) {
+        <div class="alert alert-secondary">
+          No budgets yet. Save one from the form above.
+        </div>
+      } @else {
+        <ul class="list-group">
+          @for (b of service.budgets(); track b.id) {
+            <li class="list-group-item d-flex flex-column flex-md-row gap-2 gap-md-0 align-items-md-center justify-content-between">
+              <div class="me-md-3">
+                <div class="fw-semibold">
+                  {{ b.client.name }}
+                  <span class="text-muted">· {{ b.client.email }}</span>
+                  @if (b.client.phone) {
+                    <span class="text-muted">· {{ b.client.phone }}</span>
+                  }
+                </div>
+                <div class="text-muted small">
+                  <span class="me-2">Date: {{ b.date | date:'medium' }}</span>
+                  <span>Services:
+                    @if (b.services.seo) { <span class="badge text-bg-light me-1">SEO</span> }
+                    @if (b.services.ads) { <span class="badge text-bg-light me-1">Ads</span> }
+                    @if (b.services.web) {
+                      <span class="badge text-bg-light me-1">
+                        Web ({{ b.services.pages }}×{{ b.services.languages }})
+                      </span>
+                    }
+                  </span>
+                </div>
+              </div>
+
+              <div class="ms-md-auto text-md-end">
+                <div class="fw-bold">{{ b.total | currency:'EUR' }}</div>
+
+                <button class="btn btn-sm btn-outline-danger mt-1"
+                        (click)="service.removeBudget(b.id)">
+                  Delete
+                </button>
+
+              </div>
+            </li>
+          }
+        </ul>
+      }
+
+    </div>
+  </div>
+</section>
+
