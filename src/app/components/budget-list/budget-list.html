@@ -13,6 +13,56 @@
         </span>
       </div>
 
+
+        <div class="btn-group btn-group-sm" role="group" aria-label="Sort controls">
+          <button
+            type="button"
+            class="btn"
+            [class.btn-primary]="sortKey() === 'date'"
+            [class.btn-outline-primary]="sortKey() !== 'date'"
+            (click)="setSort('date')">
+            Date
+            @if (sortKey() === 'date') {
+              <span class="ms-1">{{ sortDir() === 'asc' ? '↑' : '↓' }}</span>
+            }
+          </button>
+
+          <button
+            type="button"
+            class="btn"
+            [class.btn-primary]="sortKey() === 'price'"
+            [class.btn-outline-primary]="sortKey() !== 'price'"
+            (click)="setSort('price')">
+            Price
+            @if (sortKey() === 'price') {
+              <span class="ms-1">{{ sortDir() === 'asc' ? '↑' : '↓' }}</span>
+            }
+          </button>
+
+          <button
+            type="button"
+            class="btn"
+            [class.btn-primary]="sortKey() === 'name'"
+            [class.btn-outline-primary]="sortKey() !== 'name'"
+            (click)="setSort('name')">
+            Name
+            @if (sortKey() === 'name') {
+              <span class="ms-1">{{ sortDir() === 'asc' ? '↑' : '↓' }}</span>
+            }
+          </button>
+        </div>
+
+
+      <div class="text-muted small mb-2">
+        @if (service.budgets().length === 1) {
+          {{ service.budgets().length }} item
+        } @else {
+          {{ service.budgets().length }} items
+        }
+      </div>
+
+
+
       @if (service.budgets().length === 0) {
         <div class="alert alert-secondary">
           No budgets yet. Save one from the form above.
