@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BudgetList } from './budget-list';
 import { BudgetService } from '../../services/budget';
+import { By } from '@angular/platform-browser';
 
 describe('BudgetList', () => {
-  let component: BudgetList;
   let fixture: ComponentFixture<BudgetList>;
+  let component: BudgetList;
   let service: BudgetService;
 
   beforeEach(async () => {
@@ -24,7 +25,7 @@ describe('BudgetList', () => {
     } as any);
 
     service.addBudget({
-      client: { name: 'Bruno', email: 'b@mail.com', phone: '' },
+      client: { name: 'Arnau', email: 'a@mail.com', phone: '' },
       services: { seo: false, ads: true, web: true, pages: 2, languages: 2 },
       total: service.calculateTotalWithWebExtras({
         seo: false, ads: true, web: true, pages: 2, languages: 2
@@ -40,5 +41,6 @@ describe('BudgetList', () => {
     expect(component).toBeTruthy();
   });
 
-  
+
+
 });
