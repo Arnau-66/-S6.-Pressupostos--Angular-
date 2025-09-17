@@ -63,4 +63,24 @@ describe('BudgetList', () => {
     expect(headerCountAfter.textContent?.trim()).toContain('1 item');
   })
 
+  it('removes the correct item when Delete button is clicked', () => {
+    const anaLi = fixture.debugElement
+      .queryAll(By.css('ul.list-group > li.list-group-item'))
+      .find(li => (li.nativeElement.textContent as string).includes('Ana'));
+    expect(anaLi).toBeTruthy();
+
+    const deleteBtn = anaLi?.query(By.css('button.btn.btn-sm.btn-outline-danger'));
+    expect(deleteBtn).toBeTruthy();
+
+    deleteBtn!.nativeElement.click();
+    fixture.detectChanges();
+
+    const remainingText = fixture.debugElement
+      .queryAll(By.css('ul.list-group > li.list-group-item'))
+      .map(li => li.nativeElement.textContent as string)
+      .join(' ');
+    expect(remainingText).not.toContain('Ana');
+    expect(remainingText).not.toContain('Arnau');
+  });
+
 });
