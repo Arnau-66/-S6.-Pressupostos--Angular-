@@ -83,4 +83,16 @@ describe('BudgetList', () => {
     expect(remainingText).not.toContain('Arnau');
   });
 
+  it ('shows the empty-state alert when there are no budgets', () => {
+    service.budgets().forEach(b => service.removeBudget(b.id));
+    fixture.detectChanges();
+
+    const items = fixture.debugElement.queryAll(By.css('ul.list-group > li.list-group-item'));
+    expect(items.length).toBe(0);
+
+    const alert = fixture.debugElement.query(By.css('.alert.alert-secondary'));
+    expect(alert).toBeTruthy();
+    expect((alert.nativeElement.textContent as string).trim()).toContain('No budgets yet');
+  });
+
 });
