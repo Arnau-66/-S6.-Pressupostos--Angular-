@@ -66,5 +66,9 @@ Its purpose is to **prioritize the exercise statement** and define the minimum a
 npm install
 npx ng serve -o
 ```
+## 🧪 Testing (reminder)
 
+```bash
+npx ng test
+```
 > Locale `es-ES` and Bootstrap 5 are already configured in the base project (see `main.ts` and `styles.scss`).  
