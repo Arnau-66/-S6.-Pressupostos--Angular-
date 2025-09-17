@@ -41,6 +41,17 @@ describe('BudgetList', () => {
     expect(component).toBeTruthy();
   });
 
+  it ('renders one <li.list-group-item> per budget', () => {
+    const items = fixture.debugElement.queryAll(By.css('ul.list-group > li.list-group-item'));
+    expect(items.length).toBe(2);
+
+    const text = items.map(li => (li.nativeElement.textContent as string)).join(' ');
+    expect(text).toContain('Ana');
+    expect(text).toContain('Arnau');
+
+  });
+
+  
 
 
 });
