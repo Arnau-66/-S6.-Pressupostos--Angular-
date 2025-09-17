@@ -80,7 +80,7 @@ describe('BudgetList', () => {
       .map(li => li.nativeElement.textContent as string)
       .join(' ');
     expect(remainingText).not.toContain('Ana');
-    expect(remainingText).not.toContain('Arnau');
+    expect(remainingText).toContain('Arnau');
   });
 
   it ('shows the empty-state alert when there are no budgets', () => {
