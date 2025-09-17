@@ -51,7 +51,16 @@ describe('BudgetList', () => {
 
   });
 
-  
+  it ('updates the header count (singular/plural)', () => {
+    const headerCountEl = fixture.debugElement.query(By.css('.text-muted.small')).nativeElement as HTMLElement;
+    expect(headerCountEl.textContent?.trim()).toContain('2 items');
 
+    const first = service.budgets()[0];
+    service.removeBudget(first.id);
+    fixture.detectChanges();
+
+    const headerCountAfter = fixture.debugElement.query(By.css('.text-muted.small')).nativeElement as HTMLElement;
+    expect(headerCountAfter.textContent?.trim()).toContain('1 item');
+  })
 
 });
