@@ -131,15 +131,15 @@ describe('BudgetList', () => {
     fixture.detectChanges();
 
     let names = getRenderedNames();
-    expect(names[0]).toBe('Ana');
-    expect(names[1]).toBe('Arnau');
+    expect(names[0]).toBe('Arnau');
+    expect(names[1]).toBe('Ana');
 
     priceBtn!.nativeElement.click();
     fixture.detectChanges();
 
     names = getRenderedNames();
-    expect(names[0]).toBe('Arnau');
-    expect(names[1]).toBe('Ana');
+    expect(names[0]).toBe('Ana');
+    expect(names[1]).toBe('Arnau');
   });  
 
 });
