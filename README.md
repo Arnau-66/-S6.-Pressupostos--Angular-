@@ -1,74 +1,71 @@
-# 🧾 Exercici 6 — Sprint 6 (Branch: `feature/exercici6`)
+# 🚀 Exercise 7 – Budget App (Angular)
 
-This README belongs **exclusively** to the branch `feature/exercici6`.  
-Its purpose is to **prioritize the exercise statement** and define the minimum acceptance criteria.
+## 📌 Description
 
----
-
-## 📋 Statement (Level 1 — Exercise 6)
-
-> **Sorting the budget list**  
-> When many budgets are saved, it becomes difficult to find them.  
-> To improve usability, add **three buttons** that allow sorting the list in different ways:
->
-> 1. **Sort by date**  
-> 2. **Sort by total price**  
-> 3. **Sort alphabetically by client name**
+This exercise builds on the **previous functionality (Exercise 6)** where we implemented sorting by **date, price, and name**.  
+Now, we introduce a **search bar** that allows filtering budgets by the **client’s name**.
 
 ---
 
-## ✅ Acceptance criteria
+## 🎯 Goals
 
-- Three buttons are displayed above the list of budgets:  
-  - **“Sort by Date”**  
-  - **“Sort by Price”**  
-  - **“Sort by Name”**  
-- When a button is clicked, the list reorders accordingly.  
-- Sorting affects only the **rendering order** (data stays in the service).  
-- Default order (before clicking) = **insertion order** (as in previous exercises).  
-- Sorting works **reactively** with Angular **signals** so the list updates instantly.  
+- Add a **search input field** above the budget list.  
+- As the user types, the list should **dynamically filter** to only show budgets whose **client name matches** the query.  
+- Search should be **case-insensitive**.  
+- Search must work **in combination with sorting** (Exercise 6).
 
 ---
 
-## 🧠 Minimal technical design (for this branch)
+## 🛠️ Implementation Steps
 
-- **BudgetService** (already implemented in E5)  
-  - Keeps the reactive array of budgets as a `signal<Budget[]>`.  
-- **BudgetList component**  
-  - Displays the budgets as in E5.  
-  - Adds three buttons in the header for sorting.  
-  - Implements a local `signal` (e.g., `sortCriteria = signal<'date' | 'price' | 'name' | 'none'>('none')`) to store the current sort.  
-  - Uses a **computed signal** to return the sorted budgets based on the chosen criteria.  
+1. **Update the template (budget-list.html)**  
+   - Add an input field with `(input)` event binding.  
+   - Display only budgets matching the search query.
 
----
+2. **Update the component (budget-list.ts)**  
+   - Create a `searchTerm` signal (string).  
+   - Add a computed `filteredBudgets` that applies both **search filter** and **sorting**.  
+   - Update the template to render `filteredBudgets` instead of the full list.
 
-## 🧪 (Optional) Suggested tests for this exercise
-
-- Ensure the **three buttons** exist and are clickable.  
-- Add two or more budgets with different `date`, `total`, and `name`.  
-- Click **“Sort by Date”** and verify the order is chronological.  
-- Click **“Sort by Price”** and verify order matches ascending totals.  
-- Click **“Sort by Name”** and verify alphabetical order by `client.name`.  
+3. **Testing (budget-list.spec.ts)**  
+   - Verify that when typing a name in the search input, only matching budgets appear.  
+   - Ensure the search is **case-insensitive**.  
+   - Ensure that when search is cleared, all budgets reappear.
 
 ---
 
-## 🔗 Relation with previous exercises
+## ✅ Expected Behaviour
 
-- **Exercise 5** created the list of budgets using `BudgetList` and signals.  
-- **Exercise 6** builds on top of this by adding **sorting functionalities** to the same component.  
-- Filtering and searching (if required later) will extend the same pattern.
+- Typing **"Joan"** → Only budgets with client name *Joan* remain.  
+- Typing **"ana"** → Should still match *Ana* (case-insensitive).  
+- Clearing the search → All budgets return.  
+- Sorting buttons (date, price, name) must still work on the **filtered list**.
 
 ---
 
-## ▶️ Local execution (reminder)
+## 📂 Branch Information
+
+- **Branch name:** `feature/exercici7`  
+- Builds on: `feature/exercici6`  
+- Related files:
+  - `src/app/components/budget-list/budget-list.ts`
+  - `src/app/components/budget-list/budget-list.html`
+  - `src/app/components/budget-list/budget-list.spec.ts`
+
+---
+
+## 🧪 Testing
+
+- Framework: **Karma + Jasmine**  
+- Run tests with:
 
 ```bash
-npm install
-npx ng serve -o
+npm run test
 ```
-## 🧪 Testing (reminder)
 
-```bash
-npx ng test
-```
-> Locale `es-ES` and Bootstrap 5 are already configured in the base project (see `main.ts` and `styles.scss`).  
+Tests to implement:
+- [ ] Renders the correct filtered budgets when typing a search query.  
+- [ ] Restores full list when search is cleared.  
+- [ ] Works together with sorting (filtered + sorted).  
+
+---
