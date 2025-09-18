@@ -121,6 +121,25 @@ describe('BudgetList', () => {
     fixture.detectChanges();
     names = getRenderedNames();
     expect(names[0]).toBe('Arnau');
+  });
+
+  it('sorts by Price (asc/desc) when clicking the Price button', () => {
+    const priceBtn = queryButtonByText('Price');
+    expect(priceBtn).toBeTruthy();
+
+    priceBtn!.nativeElement.click();
+    fixture.detectChanges();
+
+    let names = getRenderedNames();
+    expect(names[0]).toBe('Ana');
+    expect(names[1]).toBe('Arnau');
+
+    priceBtn!.nativeElement.click();
+    fixture.detectChanges();
+
+    names = getRenderedNames();
+    expect(names[0]).toBe('Arnau');
+    expect(names[1]).toBe('Ana');
   });  
 
 });
