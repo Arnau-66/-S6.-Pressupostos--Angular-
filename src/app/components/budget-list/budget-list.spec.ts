@@ -8,6 +8,19 @@ describe('BudgetList', () => {
   let component: BudgetList;
   let service: BudgetService;
 
+  const queryButtonByText = (text: string) => {
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+    return buttons.find(b => (b.nativeElement.textContent as string).trim().startsWith(text));
+  }; 
+
+  const getRenderedNames = (): string[] => {
+    const items = fixture.debugElement.queryAll(By.css('ul.list-group > li.list-group-item'));
+    return items.map(li => {
+      const full = (li.nativeElement.textContent as string).replace(/\s+/g, ' ').trim();
+      return full.split(' · ')[0];
+    });
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BudgetList]
@@ -94,5 +107,20 @@ describe('BudgetList', () => {
     expect(alert).toBeTruthy();
     expect((alert.nativeElement.textContent as string).trim()).toContain('No budgets yet');
   });
+
+  it('sorts by Name (asc/desc) when clicking the Name button', () => {
+    const nameBtn = queryButtonByText('Name');
+    expect(nameBtn).toBeTruthy();
+
+    nameBtn!.nativeElement.click();
+    fixture.detectChanges();
+    let names = getRenderedNames();
+    expect(names[0]).toBe('Ana');
+
+    nameBtn!.nativeElement.click();
+    fixture.detectChanges();
+    names = getRenderedNames();
+    expect(names[0]).toBe('Arnau');
+  });  
 
 });
