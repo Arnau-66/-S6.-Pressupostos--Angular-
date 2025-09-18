@@ -12,6 +12,7 @@ type SortDir = 'asc' | 'desc';
   templateUrl: './budget-list.html',
   styleUrl: './budget-list.scss'
 })
+
 export class BudgetList {
 
   constructor(public service: BudgetService){}
@@ -29,7 +30,6 @@ export class BudgetList {
 
       switch (key) {
         case 'date': {
-
           const at = new Date(a.date).getTime();
           const bt = new Date(b.date).getTime();
           cmp = at-bt;

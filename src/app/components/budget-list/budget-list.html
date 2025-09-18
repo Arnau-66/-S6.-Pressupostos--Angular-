@@ -69,7 +69,7 @@
         </div>
       } @else {
         <ul class="list-group">
-          @for (b of service.budgets(); track b.id) {
+          @for (b of sortedBudgets(); track b.id) {
             <li class="list-group-item d-flex flex-column flex-md-row gap-2 gap-md-0 align-items-md-center justify-content-between">
               <div class="me-md-3">
                 <div class="fw-semibold">
