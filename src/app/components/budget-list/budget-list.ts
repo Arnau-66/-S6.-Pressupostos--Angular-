@@ -17,34 +17,48 @@ export class BudgetList {
 
   constructor(public service: BudgetService){}
 
+  readonly query = signal<string>('');
   readonly sortKey = signal<SortKey>('date');
   readonly sortDir = signal<SortDir>('desc');
 
-  readonly sortedBudgets = computed(() => {
-    const key = this.sortKey();
-    const dir = this.sortDir();
-    const list = [...this.service.budgets()];
+  private norm(s: string): string {
+    return s
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .toLowerCase();
+    }
 
-    list.sort((a,b)=> {
+  readonly filteredSortedBudgets = computed(() => {
+    const q = this.norm(this.query().trim());
+    const key = this.sortKey();           
+    const dir = this.sortDir();
+    
+    const list = [...this.service.budgets()];
+    const filtered = q ? list.filter(b => this.norm(b.client.name).includes(q)) : list;
+
+    return this.sortList(filtered, key, dir);
+  });
+
+  private sortList(list: any[], key: SortKey, dir: SortDir) {
+    list.sort((a, b) => {
       let cmp = 0;
 
       switch (key) {
         case 'date': {
           const at = new Date(a.date).getTime();
           const bt = new Date(b.date).getTime();
-          cmp = at-bt;
+          cmp = at - bt;
           break;
         }
-
         case 'price': {
           cmp = a.total - b.total;
           break;
         }
-
         case 'name': {
           cmp = a.client.name.localeCompare(b.client.name, 'es', {
             sensitivity: 'base',
           });
+          break;
         }
       }
 
@@ -52,8 +66,8 @@ export class BudgetList {
     });
 
     return list;
+  }
 
-  });
 
   setSort(key: SortKey): void {
     if (this.sortKey() === key) {
