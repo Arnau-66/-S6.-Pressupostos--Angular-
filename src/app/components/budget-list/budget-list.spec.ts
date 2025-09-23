@@ -21,6 +21,15 @@ describe('BudgetList', () => {
     });
   };
 
+  const setSearchValue = (value: string) => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input[type="search"]');
+    input.value = value;
+    
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+  };
+
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BudgetList]
@@ -140,6 +149,35 @@ describe('BudgetList', () => {
     names = getRenderedNames();
     expect(names[0]).toBe('Ana');
     expect(names[1]).toBe('Arnau');
+  });
+  
+  it('filters by client name (partial and case-insensitive)', () => {
+  
+    expect(getRenderedNames().length).toBe(2);
+
+    setSearchValue('ana');
+    let names = getRenderedNames();
+    expect(names).toEqual(['Ana']);
+
+    setSearchValue('ARN');
+    names = getRenderedNames();
+    expect(names).toEqual(['Arnau']);
+
+    setSearchValue('');
+    names = getRenderedNames();
+    expect(names.length).toBe(2);
+  });
+
+  it('shows empty-state when search returns no matches', () => {
+
+    setSearchValue('zz-no-match-zz');
+
+    const items = fixture.debugElement.queryAll(By.css('ul.list-group > li.list-group-item'));
+    expect(items.length).toBe(0);
+
+    const alert = fixture.debugElement.query(By.css('.alert.alert-secondary'));
+    expect(alert).toBeTruthy();
+    expect((alert.nativeElement.textContent as string)).toContain('No budgets yet');
   });  
 
 });
