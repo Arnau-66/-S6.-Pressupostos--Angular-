@@ -70,5 +70,35 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     expect(map.get('email')).toBe('x@y.com');
   });
   
+  it('supports baseUrl, returning a full URL (and keeps the same query string)', () => {
+    // Arrange
+    const state: Partial<ShareState> = { seo: true, pages: 1, name: 'Bruno' };
+    const base = 'https://example.com/app';
+
+    // Act
+    const full = encodeToSearchParams(state, base); // "https://example.com/app?seo=1&pages=1&name=Bruno"
+    const qs = onlyQuery(full);
+    const map = qsToMap(qs);
+
+    // Assert
+    expect(full.startsWith(base)).toBeTrue();
+    expect(map.get('seo')).toBe('1');
+    expect(map.get('pages')).toBe('1');
+    expect(map.get('name')).toBe('Bruno');
+  });
+
+  it('decodes booleans and numbers from a query string', () => {
+    const qs = '?seo=1&ads=0&web=1&pages=5&languages=2&name=Ana&email=ana%40mail.com';
+
+    const decoded = decodeFromSearchParams(qs) as Partial<ShareState>;
+
+    expect(decoded.seo).toBeTrue();
+    expect(decoded.ads).toBeFalse();
+    expect(decoded.web).toBeTrue();
+    expect(decoded.pages).toBe(5);
+    expect(decoded.languages).toBe(2);
+    expect(decoded.name).toBe('Ana');
+    expect(decoded.email).toBe('ana@mail.com');
+  });
 
 });
