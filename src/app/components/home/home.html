@@ -105,7 +105,23 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-end mt-4">
+      <div class="d-flex flex-wrap gap-2 justify-content-end mt-4">
+
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="onCopyLink()"
+        >
+          Copy link
+        </button>
+
+        @if (copied) {
+          <span class="align-self-center text-success small">Link copied!</span>
+        }
+        @if (copyError) {
+          <span class="align-self-center text-danger small">{{ copyError }}</span>
+        }
+
         <button
           type="button"
           class="btn btn-primary"
@@ -115,6 +131,7 @@
           Save budget
         </button>
       </div>
+
     </form>
 
   </div>

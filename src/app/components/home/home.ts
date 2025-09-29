@@ -4,6 +4,7 @@ import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angula
 import { BudgetService, SelectionWithWeb } from '../../services/budget';
 import { Panel } from '../panel/panel';
 import { BudgetList } from '../budget-list/budget-list';
+import { encodeToSearchParams } from '../../utils/url';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,9 @@ export class Home {
   form: FormGroup;
   clientForm: FormGroup;
   total = 0;
+
+  copied = false;
+  copyError: string | null = null;
 
   constructor( private fb: FormBuilder, private budgetService: BudgetService) {
     this.form = this.fb.group ({
@@ -83,6 +87,53 @@ export class Home {
     });
   }
 
+  private buildShareState() {
+    return {
+      seo: !!this.form.get('seo')?.value,
+      ads: !!this.form.get('ads')?.value,
+      web: !!this.form.get('web')?.value,
+
+      pages: Number(this.form.get('pages')?.value ?? 1),
+      languages: Number(this.form.get('languages')?.value ?? 1),
+      name: String(this.clientForm.get('name')?.value ?? ''),
+      email: String(this.clientForm.get('email')?.value ?? ''),
+      phone: String(this.clientForm.get('phone')?.value ?? ''),
+    };
+  }
+
+  private buildShareUrl(): string {
+    const state = this.buildShareState();
+    const base = window.location.origin + window.location.pathname;
+    return encodeToSearchParams(state, base);
+  }
+
+  async onCopyLink(): Promise<void> {
+    this.copied = false;
+    this.copyError = null;
+
+    const url = this.buildShareUrl();
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+
+      this.copied = true;
+      setTimeout(() => (this.copied = false), 2000);
+    } catch (err: any) {
+      this.copyError = 'Could not copy link';
+      console.error(err);
+    }
+  }
 
 }
 
