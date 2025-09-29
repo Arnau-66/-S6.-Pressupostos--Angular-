@@ -136,4 +136,18 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
 
     expect(decoded.phone as any).toBeUndefined();
   });
+
+  it('handles empty or missing query string gracefully', () => {
+    const empty1 = '';
+    const empty2 = '?';
+    const empty3 = '   ';
+
+    const d1 = decodeFromSearchParams(empty1) as Partial<ShareState>;
+    const d2 = decodeFromSearchParams(empty2) as Partial<ShareState>;
+    const d3 = decodeFromSearchParams(empty3) as Partial<ShareState>;
+
+    expect(d1).toEqual({});
+    expect(d2).toEqual({});
+    expect(d3).toEqual({});
+  });
 });
