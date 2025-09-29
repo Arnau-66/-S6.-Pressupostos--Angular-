@@ -110,4 +110,30 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     expect(decoded.pages as any).toBeUndefined();
     expect(decoded.languages as any).toBeUndefined();
   });
+
+  it('round-trips: decode(encode(state)) ≈ normalized(state)', () => {
+    const original: Partial<ShareState> = {
+      seo: true,
+      ads: true,
+      web: true,
+      pages: 2,
+      languages: 3,
+      name: 'María López',
+      email: 'maria@example.com',
+      phone: ''
+    };
+
+    const qs = encodeToSearchParams(original);
+    const decoded = decodeFromSearchParams(qs) as Partial<ShareState>;
+
+    expect(decoded.seo).toBeTrue();
+    expect(decoded.ads).toBeTrue();
+    expect(decoded.web).toBeTrue();
+    expect(decoded.pages).toBe(2);
+    expect(decoded.languages).toBe(3);
+    expect(decoded.name).toBe('María López');
+    expect(decoded.email).toBe('maria@example.com');
+
+    expect(decoded.phone as any).toBeUndefined();
+  });
 });
