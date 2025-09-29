@@ -101,4 +101,13 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     expect(decoded.email).toBe('ana@mail.com');
   });
 
+  it('is resilient to invalid numeric values (e.g., "pages=abc")', () => {
+
+    const qs = '?web=1&pages=abc&languages=-2';
+    const decoded = decodeFromSearchParams(qs) as Partial<ShareState>;
+
+    expect(decoded.web).toBeTrue();
+    expect(decoded.pages as any).toBeUndefined();
+    expect(decoded.languages as any).toBeUndefined();
+  });
 });
