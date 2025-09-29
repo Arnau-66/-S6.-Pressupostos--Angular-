@@ -55,4 +55,20 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     expect(map.get('email')).toBe('ana@mail.com');
     expect(map.has('phone')).toBeFalse();
   });
+
+  it('omits undefined / null / empty values from the query string', () => {
+    const state: Partial<ShareState> = {
+      name: '',         
+      email: 'x@y.com',
+      phone: undefined,
+    };
+
+    const qs = encodeToSearchParams(state);
+    const map = qsToMap(qs);
+
+    expect(map.size).toBe(1);
+    expect(map.get('email')).toBe('x@y.com');
+  });
+  
+
 });
