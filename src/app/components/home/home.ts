@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { BudgetService, SelectionWithWeb } from '../../services/budget';
 import { Panel } from '../panel/panel';
 import { BudgetList } from '../budget-list/budget-list';
-import { encodeToSearchParams } from '../../utils/url';
+import { encodeToSearchParams, decodeFromSearchParams } from '../../utils/url';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ import { encodeToSearchParams } from '../../utils/url';
   styleUrl: './home.scss'
 })
 
-export class Home {
+export class Home implements OnInit {
   form: FormGroup;
   clientForm: FormGroup;
   total = 0;
@@ -42,6 +42,35 @@ export class Home {
       phone: ['']
     });
 
+  }
+
+  ngOnInit(): void {
+    this.applyStateFromUrl();
+  }
+
+  private applyStateFromUrl(): void {
+    const state = decodeFromSearchParams(window.location.search);
+
+    if (!state || Object.keys(state).length === 0) return;
+
+    const web = !!state.web;
+
+    this.form.patchValue(
+      {
+        seo: !!state.seo,
+        ads: !!state.ads,
+        web,
+        pages: web ? (state.pages ?? 1) : 1,
+        languages: web ? (state.languages ?? 1) : 1,
+      },
+      { emitEvent: true }
+    );
+
+    this.clientForm.patchValue({
+      name: state.name ?? '',
+      email: state.email ?? '',
+      phone: state.phone ?? '',
+    });
   }
 
   inc (field: 'pages' | 'languages'): void {
