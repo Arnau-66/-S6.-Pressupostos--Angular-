@@ -31,6 +31,28 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     return out;
   };
 
+   it('encodes booleans as 1/0 and numbers as decimals', () => {
+    const state: Partial<ShareState> = {
+      seo: true,
+      ads: false,
+      web: true,
+      pages: 3,
+      languages: 2,
+      name: 'Ana',
+      email: 'ana@mail.com',
+      phone: ''
+    };
 
+    const result = encodeToSearchParams(state);
+    const map = qsToMap(result);
 
+    expect(map.get('seo')).toBe('1');
+    expect(map.get('ads')).toBe('0');
+    expect(map.get('web')).toBe('1');
+    expect(map.get('pages')).toBe('3');
+    expect(map.get('languages')).toBe('2');
+    expect(map.get('name')).toBe('Ana');
+    expect(map.get('email')).toBe('ana@mail.com');
+    expect(map.has('phone')).toBeFalse();
+  });
 });
