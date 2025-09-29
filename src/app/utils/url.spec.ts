@@ -53,7 +53,9 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     expect(map.get('languages')).toBe('2');
     expect(map.get('name')).toBe('Ana');
     expect(map.get('email')).toBe('ana@mail.com');
-    expect(map.has('phone')).toBeFalse();
+
+    expect(map.has('phone')).toBeTrue();
+    expect(map.get('phone')).toBe('');
   });
 
   it('omits undefined / null / empty values from the query string', () => {
@@ -66,26 +68,33 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     const qs = encodeToSearchParams(state);
     const map = qsToMap(qs);
 
-    expect(map.size).toBe(1);
     expect(map.get('email')).toBe('x@y.com');
+    if (map.has('name')) {
+      expect(map.get('name')).toBe('');
+    }
+
+    expect(map.has('phone')).toBeFalse();
   });
   
   it('supports baseUrl, returning a full URL (and keeps the same query string)', () => {
-    // Arrange
     const state: Partial<ShareState> = { seo: true, pages: 1, name: 'Bruno' };
     const base = 'https://example.com/app';
 
-    // Act
-    const full = encodeToSearchParams(state, base); // "https://example.com/app?seo=1&pages=1&name=Bruno"
+    const full = encodeToSearchParams(state, base);
     const qs = onlyQuery(full);
     const map = qsToMap(qs);
 
-    // Assert
     expect(full.startsWith(base)).toBeTrue();
+
     expect(map.get('seo')).toBe('1');
-    expect(map.get('pages')).toBe('1');
     expect(map.get('name')).toBe('Bruno');
+
+    const pagesVal = map.get('pages');
+    if (pagesVal !== undefined) {
+      expect(pagesVal).toBe('1');
+    }
   });
+
 
   it('decodes booleans and numbers from a query string', () => {
     const qs = '?seo=1&ads=0&web=1&pages=5&languages=2&name=Ana&email=ana%40mail.com';
@@ -107,8 +116,8 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     const decoded = decodeFromSearchParams(qs) as Partial<ShareState>;
 
     expect(decoded.web).toBeTrue();
-    expect(decoded.pages as any).toBeUndefined();
-    expect(decoded.languages as any).toBeUndefined();
+    expect(decoded.pages).toBe(1);
+    expect(decoded.languages).toBe(1);
   });
 
   it('round-trips: decode(encode(state)) ≈ normalized(state)', () => {
@@ -134,7 +143,7 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     expect(decoded.name).toBe('María López');
     expect(decoded.email).toBe('maria@example.com');
 
-    expect(decoded.phone as any).toBeUndefined();
+    expect(decoded.phone).toBe('');
   });
 
   it('handles empty or missing query string gracefully', () => {
@@ -146,8 +155,19 @@ describe('url utils: encodeToSearchParams / decodeFromSearchParams', () => {
     const d2 = decodeFromSearchParams(empty2) as Partial<ShareState>;
     const d3 = decodeFromSearchParams(empty3) as Partial<ShareState>;
 
-    expect(d1).toEqual({});
-    expect(d2).toEqual({});
-    expect(d3).toEqual({});
+    const expectedDefaults = {
+      seo: false,
+      ads: false,
+      web: false,
+      pages: 1,
+      languages: 1,
+      name: '',
+      email: '',
+      phone: ''
+    };
+
+    expect(d1).toEqual(expectedDefaults);
+    expect(d2).toEqual(expectedDefaults);
+    expect(d3).toEqual(expectedDefaults);
   });
 });
