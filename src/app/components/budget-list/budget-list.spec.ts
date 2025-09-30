@@ -106,7 +106,12 @@ describe('BudgetList', () => {
   });
 
   it ('shows the empty-state alert when there are no budgets', () => {
-    service.budgets().forEach(b => service.removeBudget(b.id));
+    
+    component.query.set('');
+    fixture.detectChanges();
+
+    const ids = service.budgets().map(b => b.id);
+    ids.forEach(id => service.removeBudget(id));
     fixture.detectChanges();
 
     const items = fixture.debugElement.queryAll(By.css('ul.list-group > li.list-group-item'));
@@ -116,6 +121,7 @@ describe('BudgetList', () => {
     expect(alert).toBeTruthy();
     expect((alert.nativeElement.textContent as string).trim()).toContain('No budgets yet');
   });
+
 
   it('sorts by Name (asc/desc) when clicking the Name button', () => {
     const nameBtn = queryButtonByText('Name');
@@ -177,7 +183,7 @@ describe('BudgetList', () => {
 
     const alert = fixture.debugElement.query(By.css('.alert.alert-secondary'));
     expect(alert).toBeTruthy();
-    expect((alert.nativeElement.textContent as string)).toContain('No budgets yet');
+    expect((alert.nativeElement.textContent as string)).toContain('No results');
   });  
 
 });

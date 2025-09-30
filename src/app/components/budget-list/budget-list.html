@@ -72,9 +72,11 @@
         }
       </div>
 
-
-
-      @if (filteredSortedBudgets().length === 0) {
+      @if (service.budgets().length === 0) {
+        <div class="alert alert-secondary">
+          No budgets yet. Save one from the form above.
+        </div>
+      } @else if (query().trim().length > 0 && filteredSortedBudgets().length === 0) {
         <div class="alert alert-secondary">
           No results. Try another search or clear the query.
         </div>
