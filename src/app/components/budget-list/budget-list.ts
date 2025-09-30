@@ -1,6 +1,7 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { BudgetService } from '../../services/budget';
+import { encodeToSearchParams } from '../../utils/url';
 
 type SortKey = 'date' | 'price' | 'name';
 type SortDir = 'asc' | 'desc';
@@ -20,6 +21,9 @@ export class BudgetList {
   readonly query = signal<string>('');
   readonly sortKey = signal<SortKey>('date');
   readonly sortDir = signal<SortDir>('desc');
+
+  copiedId: string | null = null;
+  copyErrorId: string | null = null;
 
   private norm(s: string): string {
     return s
@@ -67,6 +71,56 @@ export class BudgetList {
 
     return list;
   }
+
+  private buildShareUrlFromBudget(b: {
+    services: { seo: boolean; ads: boolean; web: boolean; pages: number; languages: number; };
+    client: { name: string; email: string; phone?: string; };
+  }): string {
+    const base = window.location.origin + window.location.pathname;
+
+    const state = {
+      seo: !!b.services.seo,
+      ads: !!b.services.ads,
+      web: !!b.services.web,
+      pages: Number(b.services.pages ?? 1),
+      languages: Number(b.services.languages ?? 1),
+      name: String(b.client.name ?? ''),
+      email: String(b.client.email ?? ''),
+      phone: String(b.client.phone ?? ''),
+    };
+
+    return encodeToSearchParams(state, base);
+  }
+
+  async onCopyBudgetLink(budget: any): Promise<void> {
+    this.copiedId = null;
+    this.copyErrorId = null;
+
+    const url = this.buildShareUrlFromBudget(budget);
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+
+      this.copiedId = budget.id;
+      setTimeout(() => (this.copiedId = null), 2000);
+    } catch (err) {
+      console.error(err);
+      this.copyErrorId = budget.id;
+      setTimeout(() => (this.copyErrorId = null), 3000);
+    }
+  }
+
 
 
   setSort(key: SortKey): void {
